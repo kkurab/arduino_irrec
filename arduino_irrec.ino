@@ -210,11 +210,12 @@ record_ir(int *tab, int maxlen)
 	unsigned long time;
 	int state = 1;
 	int tabpos = 0;
-
+	
+	tab[1] = TIMEOUT_IR;
 	for (;;) {
 		time = micros();
 		while (sense_ir() == state) {
-			if (micros() - time >= TIMEOUT_IR) {
+			if (micros() - time >= tab[1]*0.8) { //TIMEOUT or Repeat
 				return tabpos;
 			}
 		}
